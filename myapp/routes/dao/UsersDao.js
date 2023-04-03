@@ -1,7 +1,4 @@
 const { v4: uuidv4 } = require("uuid");
-const { check, validationResult } = require("express-validator");
-var passport = require("passport");
-var LocalStrategy = require("passport-local");
 var CryptoJS = require("crypto-js");
 const Pool = require("pg").Pool;
 
@@ -37,6 +34,7 @@ const getUsersById = (request, response) => {
     }
   );
 };
+
 const getUsersByEmail = (request, response) => {
   pool.query(
     "SELECT email FROM ecommerce.users WHERE email = $1",
@@ -50,6 +48,7 @@ const getUsersByEmail = (request, response) => {
   );
   return;
 };
+
 const createUser = (request, response) => {
   const { name, last_name, age, password, email } = request.body;
   const id = uuidv4();
@@ -71,6 +70,7 @@ const createUser = (request, response) => {
     }
   );
 };
+
 const updateUser = (request, response) => {
   const { id, name, last_name, age } = request.body;
   pool.query(
@@ -84,6 +84,7 @@ const updateUser = (request, response) => {
     }
   );
 };
+
 const deleteUser = (request, response) => {
   const id = request.params.id;
   pool.query("DELETE FROM ecommerce.users WHERE id = $1", [id], (error) => {
@@ -93,6 +94,7 @@ const deleteUser = (request, response) => {
     response.status(200).send(`User DELETED`);
   });
 };
+
 module.exports = {
   getUsers,
   getUsersById,
