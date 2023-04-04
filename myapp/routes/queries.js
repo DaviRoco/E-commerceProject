@@ -9,7 +9,6 @@ const pool = new Pool({
   password: "postgres",
   port: 5432,
 });
-
 const getUsers = (request, response) => {
   pool.query(
     "SELECT * FROM ecommerce.users ORDER BY id ASC",

@@ -1,5 +1,5 @@
 var express = require("express");
-const db = require("./queries");
+const db = require("./UsersDao");
 var router = express.Router();
 
 router.get("/", db.getUsers);
