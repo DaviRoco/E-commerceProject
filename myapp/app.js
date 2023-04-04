@@ -1,4 +1,5 @@
 var createError = require("http-errors");
+es6Renderer = require("express-es6-template-engine");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -12,8 +13,9 @@ var cartsRouter = require("./routes/CartsController");
 var app = express();
 
 // view engine setup
+app.engine("html", es6Renderer);
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+app.set("view engine", "html");
 
 app.use(logger("dev"));
 app.use(express.json());

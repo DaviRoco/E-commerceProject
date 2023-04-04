@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-var CryptoJS = require("crypto-js");
+var dev = require("encrypto");
 const Pool = require("pg").Pool;
 
 const pool = new Pool({
@@ -51,16 +51,10 @@ const getUsersByEmail = (request, response) => {
 const createUser = (request, response) => {
   const { name, last_name, age, password, email } = request.body;
   const id = uuidv4();
+  const encryptedPassword = dev.encryptdata(password);
   pool.query(
     "INSERT INTO ecommerce.users (id, name, last_name, age, password, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-    [
-      id,
-      name,
-      last_name,
-      age,
-      CryptoJS.AES.encrypt(JSON.stringify(password), "david").toString(),
-      email,
-    ],
+    [id, name, last_name, age, encryptedPassword, email],
     (error, results) => {
       if (error) {
         throw error;
@@ -69,7 +63,6 @@ const createUser = (request, response) => {
     }
   );
 };
-
 const updateUser = (request, response) => {
   const { id, name, last_name, age } = request.body;
   pool.query(
